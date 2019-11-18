@@ -1,0 +1,14 @@
+src/main/resources
+data
+HELP.md
+target/
+
+### IntelliJ IDEA ###
+.idea
+.mvn
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
