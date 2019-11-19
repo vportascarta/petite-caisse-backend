@@ -31,6 +31,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 
 @Configuration
@@ -109,7 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     CorsConfigurationSource corsConfigurationSource()
     {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://192.168.100.146:3000"));
+        configuration.setAllowedOrigins(Collections.singletonList("https://caisse.nivtech.ovh"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -135,12 +136,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
-                .authorizeRequests()
-                .antMatchers("/api/dashboard/**", "/api/product/**", "/api/transaction/**", "/api/user/**")
-                .authenticated()
-                .anyRequest()
-                .permitAll()
-                .and()
                 .oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize")
@@ -155,8 +150,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .successHandler(oAuth2AuthenticationSuccessHandler)
                 .failureHandler(oAuth2AuthenticationFailureHandler)
                 .and()
+                .authorizeRequests()
+                .antMatchers("/api/dashboard/**", "/api/product/**", "/api/transaction/**", "/api/user/**")
+                .authenticated()
+                .anyRequest()
+                .permitAll()
+                .and()
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        //.and().headers().frameOptions().disable();
     }
 
     @Bean
