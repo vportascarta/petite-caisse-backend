@@ -10,7 +10,5 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long>
 {
-
     List<Transaction> findAllByPurchaseAtBetween(Date start, Date end);
-
 }

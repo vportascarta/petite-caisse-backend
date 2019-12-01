@@ -39,6 +39,8 @@ public class WebConfig implements WebMvcConfigurer
                 .setViewName("forward:/");
         registry.addViewController("/pos")
                 .setViewName("forward:/");
+        registry.addViewController("/tos")
+                .setViewName("forward:/");
 
     }
 }

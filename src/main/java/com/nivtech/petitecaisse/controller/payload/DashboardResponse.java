@@ -1,11 +1,19 @@
 package com.nivtech.petitecaisse.controller.payload;
 
+import org.springframework.data.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 public class DashboardResponse
 {
     private Double amountInRegisters;
     private Double amountInDebts;
     private Double amountInProducts;
     private Integer productsInStock;
+    private List<Pair<String, Long>> pastSales;
 
     public Double getAmountInRegisters()
     {
@@ -45,5 +53,15 @@ public class DashboardResponse
     public void setProductsInStock(Integer productsInStock)
     {
         this.productsInStock = productsInStock;
+    }
+
+    public List<Pair<String, Long>> getPastSales()
+    {
+        return pastSales;
+    }
+
+    public void setPastSales(List<Pair<String, Long>> pastSales)
+    {
+        this.pastSales = pastSales;
     }
 }

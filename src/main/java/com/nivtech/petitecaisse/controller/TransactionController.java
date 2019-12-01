@@ -8,6 +8,7 @@ import com.nivtech.petitecaisse.exception.BadRequestException;
 import com.nivtech.petitecaisse.security.CurrentUser;
 import com.nivtech.petitecaisse.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -72,7 +73,7 @@ public class TransactionController
     @GetMapping("/last")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public @ResponseBody
-    List<Transaction> getLastTransactions(@RequestParam Integer page, @RequestParam Integer size)
+    Page<Transaction> getLastTransactions(@RequestParam Integer page, @RequestParam Integer size)
     {
         return transactionService.getLastTransactions(page != null ? page : 0, size != null ? size : 10);
     }

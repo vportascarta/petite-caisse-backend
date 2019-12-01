@@ -9,12 +9,17 @@ import com.nivtech.petitecaisse.repository.ProductRepository;
 import com.nivtech.petitecaisse.repository.TransactionRepository;
 import com.nivtech.petitecaisse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,11 +42,19 @@ public class TransactionService
         this.transactionRepository = transactionRepository;
     }
 
-    public List<Transaction> getLastTransactions(int page, int size)
+    public Page<Transaction> getLastTransactions(int page, int size)
     {
         return transactionRepository.findAll(
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "purchaseAt"))
-        ).getContent();
+        );
+    }
+
+    public List<Transaction> getLastTransactions(LocalDateTime start, LocalDateTime end)
+    {
+        Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(end.atZone(ZoneId.systemDefault()).toInstant());
+
+        return transactionRepository.findAllByPurchaseAtBetween(startDate, endDate);
     }
 
     @Transactional
